@@ -21,9 +21,8 @@ gulp.task('traceur', function () {
   var runtimePath = $.traceur.RUNTIME_PATH;
   var filter = $.filter('!traceur-runtime.js');
 
-  return gulp.src([runtimePath, 'scripts/*.js'])
+  return gulp.src([runtimePath, 'scripts/**/*.js'])
     .pipe($.order([
-      'traceur-runtime.js',
       'generators.js',
       'todo.js',
       'todolist.js',
@@ -33,10 +32,11 @@ gulp.task('traceur', function () {
     .pipe($.traceur({
       experimental: true,
       // sourceMap: true,
-      modules: 'register'
+      modules: 'register',
+      moduleName: true
     }))
-    .pipe(filter.restore())
-    .pipe($.concat('app.js'))
+    // .pipe(filter.restore())
+    // .pipe($.concat('app.js'))
     .pipe($.insert.append('System.get("app" + "");'))
     .pipe(gulp.dest('build'));
 });
@@ -56,14 +56,14 @@ gulp.task('connect', function () {
     .use(connect.directory('.'));
 
   require('http').createServer(app)
-    .listen(3000)
+    .listen(4000)
     .on('listening', function () {
-      console.log('Started connect web server on http://localhost:3000');
+      console.log('Started connect web server on http://localhost:4000');
     });
 });
 
 gulp.task('serve', ['connect'], function () {
-  require('opn')('http://localhost:3000');
+  require('opn')('http://localhost:4000');
 });
 
 gulp.task('watch', ['connect', 'serve'], function () {

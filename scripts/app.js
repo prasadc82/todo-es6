@@ -3,7 +3,7 @@
 /*global angular: false */
 
 // The next line doesn't work without the ./ in Traceur!
-import TodoList from './todolist';
+import TodoList from './rl/todolist';
 
 var app = angular.module('Todo', []);
 var todoList = new TodoList();
